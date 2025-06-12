@@ -1,7 +1,7 @@
 # 🐾 FlutterPaws 🐾
 
 <p align="center">
-  <img src="./assets/logo.png" alt="YOLO-Drone" width="80%" />
+  <img src="./assets/logo.png" alt="YOLO-Drone" width="45%" />
 </p>
 
 <div align="center">
