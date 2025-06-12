@@ -5,6 +5,7 @@
 </p>
 
 <div align="center">
+  
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![Provider](https://img.shields.io/badge/Provider-4285F4?style=for-the-badge&logo=google&logoColor=white)
@@ -18,6 +19,7 @@
 
 
 <div align="center">
+  
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-lightgrey?style=flat-square)
 ![GitHub Stars](https://img.shields.io/github/stars/Echo-Nie/Flutter-A-Dog-s-Diary?style=social)
