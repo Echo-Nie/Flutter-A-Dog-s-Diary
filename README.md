@@ -1,7 +1,10 @@
 # 🐾 FlutterPaws 🐾
 
-<div align="center">
+<p align="center">
+  <img src="./assets/logo.png" alt="YOLO-Drone" width="80%" />
+</p>
 
+<div align="center">
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![Provider](https://img.shields.io/badge/Provider-4285F4?style=for-the-badge&logo=google&logoColor=white)
@@ -12,14 +15,17 @@
 
 </div>
 
-<div align="center">
 
+
+<div align="center">
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-lightgrey?style=flat-square)
 ![GitHub Stars](https://img.shields.io/github/stars/Echo-Nie/Flutter-A-Dog-s-Diary?style=social)
 ![GitHub Forks](https://img.shields.io/github/forks/Echo-Nie/Flutter-A-Dog-s-Diary?style=social)
 
 </div>
+
+<br>
 
 
 ## 📖 项目概述  
@@ -87,12 +93,16 @@ lib/
 
 
 ## 🛠️ 开发与部署指南  
-### 环境准备  
+**环境准备**  
+
 1. 安装 [Flutter 3.7.0+](https://flutter.dev/docs/get-started/install)  
 2. 配置开发工具：Android Studio/VS Code（推荐安装 Flutter 插件）  
 3. 确保 `flutter doctor` 检查无异常（重点关注 Android/iOS 开发环境）  
 
-### 快速启动  
+
+
+**快速启动**  
+
 ```bash
 # 克隆项目
 git clone https://github.com/Echo-Nie/Flutter-A-Dog-s-Diary.git
