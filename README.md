@@ -49,6 +49,16 @@ FlutterPaws is a comprehensive, cross-platform pet diary application developed u
 - Medication Reminders: Dosage calculation based on pet weight (e.g., weight × 2mg/kg)
 - Quarterly Health Reports: Automatically generated with BMI analysis and vaccination validity tracking
 
+## 🐾 Pet Management App Prototype
+
+ - **Points Redemption 🛒:** Display of current points balance. "Check Details" button for viewing transaction history. List of redeemable items such as dog food, treats, beds, and water bottles
+ - **Home Page 🏠:** Pet profile display including photo, age, breed, and weight. Quick access panel: Daily check-in, health tracking, weight logging, notes, and feeding guide. Follow & recommendation section for community engagement
+ - **Weight Tracking 📊:** Graphical representation of weight data over time (line chart). Time range selector (weekly, monthly, yearly view). Display of maximum and minimum recorded weights
+ - **User Profile 👤:** User information including avatar, nickname, likes, followers, and following count. List of registered pets. Settings options: theme selection, language preference, and logout function
+ - **Calendar Logs 📅:** Calendar-based interface with activity markers. Logging features for bathing, walking, weight recording, etc.Medical records section including hospital name, diagnosis, and description
+
+![image](https://github.com/user-attachments/assets/5fc24d68-b51c-4824-833b-86f62610c3b8)
+
 
 ## 💻 Technical Architecture
 
