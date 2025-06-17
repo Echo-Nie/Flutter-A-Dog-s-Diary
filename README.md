@@ -1,3 +1,5 @@
+# 🐾 FlutterPaws Pet Management 🐾
+
 EN | [中文](README_zh.md)
 
 <p align="center">
