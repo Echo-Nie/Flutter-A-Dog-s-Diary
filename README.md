@@ -1,10 +1,11 @@
 # 🐾 FlutterPaws 🐾
 
 <p align="center">
-  <img src="./assets/logo.png" alt="YOLO-Drone" width="80%" />
+  <img src="./assets/logo.png" alt="FlutterPaws Logo" width="45%" />
 </p>
 
 <div align="center">
+  
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![Provider](https://img.shields.io/badge/Provider-4285F4?style=for-the-badge&logo=google&logoColor=white)
@@ -15,134 +16,140 @@
 
 </div>
 
-
-
 <div align="center">
+  
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-lightgrey?style=flat-square)
-![GitHub Stars](https://img.shields.io/github/stars/Echo-Nie/Flutter-A-Dog-s-Diary?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/Echo-Nie/Flutter-A-Dog-s-Diary?style=social)
+![GitHub Stars](https://img.shields.io/github/stars/Echo-Nie/FlutterPaws?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/Echo-Nie/FlutterPaws?style=social)
 
 </div>
 
-<br>
+
+## 📖 Project Overview
+FlutterPaws is a comprehensive, cross-platform pet diary application developed using the Flutter framework. Designed to address the core needs of pet owners, this application provides modules for diary entries, schedule management, health tracking, and photo galleries, offering a complete solution for pet lifestyle management.
 
 
-## 📖 项目概述  
-Flutter-A-Dog-s-Diary 是我独立开发的移动应用开发期末大作业，基于 Flutter 框架构建的跨平台宠物日记应用。项目聚焦宠物主人的核心需求，实现了日记记录、日程管理、健康档案、照片墙等功能模块，完整覆盖宠物生活管理场景。  
+## 🌟 Core Features
+
+#### 📝 Intelligent Diary System
+- Multimedia Support: Combine text, images, and videos to capture memories across various scenarios
+- Automatic Tagging: Generates time and type tags automatically, with support for custom tags and classification
+- Mood Tracking: Includes a mood selector with emojis (e.g., 😄 Happy, 😴 Sleepy, 🍖 Hungry)
+- Templates: Preset templates for growth records, health updates, and memorable moments
+
+#### 📅 Pet Schedule Management
+- Triple Reminder System: Feeding (timed/recurring), vaccinations (expiry alerts), grooming (periodic reminders)
+- Customizable Events: Support for repeating cycles (e.g., weekly deworming, monthly bathing)
+- Color-Coded Calendar: Visualizes events by priority with color-coded tags
+
+#### 🏥 Health Data Management
+- Weight Tracking: Interactive charts with weekly/monthly/yearly comparisons
+- Vaccination Dashboard: Countdowns for rabies, infectious disease, and other vaccinations
+- Medication Reminders: Dosage calculation based on pet weight (e.g., weight × 2mg/kg)
+- Quarterly Health Reports: Automatically generated with BMI analysis and vaccination validity tracking
+
+## 🐾 Pet Management App Prototype (MasterGo)
+
+ - **Points Redemption 🛒:** Display of current points balance. "Check Details" button for viewing transaction history. List of redeemable items such as dog food, treats, beds, and water bottles
+ - **Home Page 🏠:** Pet profile display including photo, age, breed, and weight. Quick access panel: Daily check-in, health tracking, weight logging, notes, and feeding guide. Follow & recommendation section for community engagement
+ - **Weight Tracking 📊:** Graphical representation of weight data over time (line chart). Time range selector (weekly, monthly, yearly view). Display of maximum and minimum recorded weights
+ - **User Profile 👤:** User information including avatar, nickname, likes, followers, and following count. List of registered pets. Settings options: theme selection, language preference, and logout function
+ - **Calendar Logs 📅:** Calendar-based interface with activity markers. Logging features for bathing, walking, weight recording, etc.Medical records section including hospital name, diagnosis, and description
+
+![image](https://github.com/user-attachments/assets/5fc24d68-b51c-4824-833b-86f62610c3b8)
 
 
-## 🌟 核心功能特性  
-### 📝 智能日记系统  
-- 支持文字/图片/视频混合记录，适配多场景回忆留存  
-- 自动生成时间/类型标签，支持自定义标签分类检索  
-- 集成心情状态选择器（如😄快乐/😴困倦/🍖贪吃等）  
-- 预设成长日记/健康记录/趣味瞬间等模板  
+## 💻 Technical Architecture
 
-### 📅 宠物日程管理  
-- 三维提醒系统：喂食（定时循环）、疫苗（到期预警）、美容（周期提醒）  
-- 自定义事件支持重复周期设置（如每周驱虫、每月洗澡）  
-- 日历视图支持按标签颜色标记事件优先级  
+#### Core Technology Stack
 
-### 🏥 健康数据管理  
-- 体重曲线可视化图表（支持周/月/年维度对比）  
-- 疫苗接种倒计时看板（含狂犬疫苗、传染病疫苗等分类）  
-- 用药提醒支持剂量/频次智能计算（如体重×2mg/kg）  
-- 自动生成季度健康报告（含BMI评估、疫苗时效分析）  
+| Component       | Version  | Description                     |
+|-----------------|----------|---------------------------------|
+| **Flutter**     | 3.7.0    | Cross-platform UI framework     |
+| **Dart**        | 3.0.0    | Programming language with null safety |
+| **Provider**    | 6.1.2    | State management for themes, language, and data |
+| **SharedPreferences**| 2.2.2  | Local lightweight data persistence |
+| **Flutter Localizations**| -    | Multi-language support system   |
+| **Cupertino Icons**| 1.0.8   | iOS-style icon library          |
 
-
-## 🚀 技术架构详情  
-### 核心技术栈  
-
-| 技术模块        | 版本号       | 说明                          |  
-|-----------------|--------------|-------------------------------|  
-| **Flutter**     | 3.7.0        | 跨平台UI框架，一套代码多端部署 |  
-| **Dart**        | 3.0.0        | 编程语言，支持空安全特性       |  
-| **Provider**    | 6.1.2        | 状态管理，分层控制主题/语言/数据|  
-| **SharedPreferences**| 2.2.2      | 本地轻量级数据持久化          |  
-| **Flutter Localizations**| -          | 多语言支持系统                |  
-| **Cupertino Icons**| 1.0.8      | iOS风格图标库                 |  
-
-### 技术实现亮点  
-1. **响应式布局**：通过 `LayoutBuilder` 实现多设备屏幕适配，在手机/平板/网页端保持一致体验  
-2. **混合开发**：通过 `platform_channel` 实现与原生系统的交互（如本地通知、相册访问）  
-3. **性能优化**：使用 `ListView.builder` 实现大数据量列表的虚拟渲染  
+#### Key Technical Features
+1. **Responsive Design**: Adaptive layout using `LayoutBuilder` for consistent experience across phones, tablets, and web
+2. **Hybrid Integration**: Native system interactions via `platform_channel` (local notifications, photo gallery access)
+3. **Performance Optimization**: Virtualized rendering for large lists with `ListView.builder`
 
 
-## 📦 项目结构解析  
-```dart
-lib/
-├── core/              # 核心功能层
-│   ├── models/        # 数据模型（Pet.dart, Diary.dart, HealthRecord.dart）
-│   ├── services/      # 业务逻辑（NotificationService, HealthService）
-│   └── utils/         # 工具类（DateUtil, ImageUtil, ThemeUtil）
-├── presentation/      # 展示层
-│   ├── pages/         # 页面组件
-│   │   ├── HomePage.dart       # 首页（日记时间线+快捷功能）
-│   │   ├── CalendarPage.dart   # 日程日历（事件可视化）
-│   │   ├── HealthPage.dart     # 健康档案（数据图表展示）
-│   ├── widgets/       # 可复用组件
-│   │   ├── PetCard.dart        # 宠物信息卡片（含状态指示器）
-│   │   ├── DiaryItem.dart      # 日记条目组件（支持媒体预览）
-│   │   └── ReminderTile.dart   # 提醒事项磁贴（带倒计时）
-├── config/            # 配置层
-│   ├── themes/        # 主题配置（Light/Dark模式）
-│   └── locales/       # 多语言资源（zh_CN/en_US）
-└── main.dart          # 应用入口（初始化Provider状态）
+## 📦 Project Structurelib/
+
+```
+├── core/              # Core functionality
+│   ├── models/        # Data models (Pet.dart, Diary.dart, HealthRecord.dart)
+│   ├── services/      # Business logic (NotificationService, HealthService)
+│   └── utils/         # Utility classes (DateUtil, ImageUtil, ThemeUtil)
+├── presentation/      # UI layer
+│   ├── pages/         # Main screens
+│   │   ├── HomePage.dart       # Dashboard with diary timeline and quick actions
+│   │   ├── CalendarPage.dart   # Schedule visualization
+│   │   ├── HealthPage.dart     # Health metrics dashboard
+│   ├── widgets/       # Reusable components
+│   │   ├── PetCard.dart        # Pet profile with status indicators
+│   │   ├── DiaryItem.dart      # Diary entry with media preview
+│   │   └── ReminderTile.dart   # Reminder widget with countdown
+├── config/            # Configuration
+│   ├── themes/        # Theme settings (Light/Dark modes)
+│   └── locales/       # Localization resources (zh_CN/en_US)
+└── main.dart          # Application entry point
 ```
 
 
-## 🛠️ 开发与部署指南  
-**环境准备**  
+## 🚀 Quick Start
 
-1. 安装 [Flutter 3.7.0+](https://flutter.dev/docs/get-started/install)  
-2. 配置开发工具：Android Studio/VS Code（推荐安装 Flutter 插件）  
-3. 确保 `flutter doctor` 检查无异常（重点关注 Android/iOS 开发环境）  
+1. Install [Flutter 3.7.0+](https://flutter.dev/docs/get-started/install)
+2. Configure IDE: Android Studio/VS Code with Flutter plugin
+3. Verify setup with `flutter doctor`
 
+```
+# Clone repository
+git clone https://github.com/Echo-Nie/FlutterPaws.git
+cd FlutterPaws
+```
 
-
-**快速启动**  
-
-```bash
-# 克隆项目
-git clone https://github.com/Echo-Nie/Flutter-A-Dog-s-Diary.git
-cd Flutter-A-Dog-s-Diary
-
-# 安装依赖
+```
+# Install dependencies
 flutter pub get
+```
 
-# 运行应用（默认设备）
+```
+# Run on default device
 flutter run
+```
 
-# 构建发布版本（Android）
+```
+# Build release APK (Android)
 flutter build apk --release
+```
 
-# 构建发布版本（iOS）
+```
+# Build release IPA (iOS)
 flutter build ios --release
 ```
 
-
-## 🔮 未来迭代计划  
-- [ ] **宠物社交模块**：添加宠物动态广场、主人交流社区（含地理位置匹配）  
-- [ ] **AI 健康分析**：集成图像识别（宠物表情分析）+ 数据预测（体重趋势预警）  
-- [ ] **多设备同步**：基于 Firebase 实现云同步（支持家庭账号共享）  
-- [ ] **可穿戴设备集成**：对接宠物智能项圈（运动量/体温数据接入）  
+## 🔮 Future Enhancements
+- [ ] **Pet Social Network**: Community feed and owner networking with location-based matching
+- [ ] **AI Health Analysis**: Image recognition for pet emotion detection and predictive analytics
+- [ ] **Cloud Sync**: Firebase-powered multi-device synchronization with family account sharing
 
 
-## 📄 项目声明  
-本项目为移动应用开发课程期末作业，采用 MIT 开源协议。如需商业使用或二次开发，请联系作者获取授权。  
+## 📄 License
+This project is released under the MIT open-source license. Commercial use or derivative works require authorization from the author.
 
-> 🌟 若项目对您有帮助，欢迎点击右上角 ⭐️ 收藏，您的支持是我持续优化的动力！  
-
-
-## 👨‍💻 开发者  
-
-[Echo-Nie](https://github.com/Echo-Nie)  
-
-## 🙏 致谢  
-感谢 Flutter 团队提供的跨平台框架，以及 Provider、SharedPreferences 等开源库的作者。同时感谢课程老师在开发过程中给予的指导以及很多可行性建议。  
+> 🌟 If you find this project useful, please give it a ⭐️! Your support drives continuous improvement.
 
 
-## 📞 联系方式  
-- GitHub Issue：[提交问题/建议](https://github.com/Echo-Nie/Flutter-A-Dog-s-Diary/issues)  
-- 邮箱：[nyxchaoji123@163.com](nyxchaoji123@163.com)
+## 🙏 Acknowledgments
+Special thanks to the Flutter team for the cross-platform framework, and to the developers of Provider, SharedPreferences, and other open-source libraries. Gratitude also goes to course instructors for guidance and feedback during development.
+
+
+## 📞 Contact
+- GitHub Issues: [Report bugs/request features](https://github.com/Echo-Nie/FlutterPaws/issues)
+- Email: [nyxchaoji123@163.com](mailto:nyxchaoji123@163.com)
