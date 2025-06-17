@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lakes6/localizations/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../theme_notifier.dart';
 import '../locale_notifier.dart';
@@ -13,14 +14,14 @@ class SettingsPage extends StatelessWidget {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('设置'),
+        title: Text(context.translate('settings')),
         backgroundColor: theme.primaryColor,
       ),
       body: ListView(
         children: [
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('个人信息'),
+            title: Text(context.translate('personalInfo')),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.push(
               context,
@@ -29,7 +30,7 @@ class SettingsPage extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.pets),
-            title: const Text('宠物管理'),
+            title: Text(context.translate('petManagement')),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.push(
               context,
@@ -38,19 +39,19 @@ class SettingsPage extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.color_lens),
-            title: const Text('主题设置'),
+            title: Text(context.translate('themeSettings')),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showThemeDialog(context),
           ),
           ListTile(
             leading: const Icon(Icons.language),
-            title: const Text('语言设置'),
+            title: Text(context.translate('languageSettings')),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showLanguageDialog(context),
           ),
           ListTile(
             leading: const Icon(Icons.notifications),
-            title: const Text('通知设置'),
+            title: Text(context.translate('notificationSettings')),
             trailing: Switch(
               value: true,
               onChanged: (value) {},
@@ -58,7 +59,7 @@ class SettingsPage extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.info),
-            title: const Text('关于'),
+            title: Text(context.translate('about')),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
@@ -71,7 +72,7 @@ class SettingsPage extends StatelessWidget {
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('退出登录'),
+              child: Text(context.translate('logout')),
             ),
           ),
         ],
@@ -88,13 +89,13 @@ class SettingsPage extends StatelessWidget {
       builder: (context) {
         final theme = Provider.of<ThemeNotifier>(context);
         final colors = <MaterialColor, String>{
-          Colors.amber: '橙黄',
-          Colors.blue: '蓝色',
-          Colors.green: '绿色',
-          Colors.red: '红色',
-          Colors.purple: '紫色',
-          Colors.teal: '青色',
-          Colors.orange: '橙色',
+          Colors.amber: context.translate('amber'),
+          Colors.blue: context.translate('blue'),
+          Colors.green: context.translate('green'),
+          Colors.red: context.translate('red'),
+          Colors.purple: context.translate('purple'),
+          Colors.teal: context.translate('teal'),
+          Colors.orange: context.translate('orange'),
         };
         return Padding(
           padding: const EdgeInsets.all(24),
@@ -102,7 +103,8 @@ class SettingsPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('选择主题色', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(context.translate('selectTheme'),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 16,
@@ -144,25 +146,33 @@ class SettingsPage extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
+        final localeNotifier = Provider.of<LocaleNotifier>(context);
         return Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('选择语言', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(context.translate('selectLanguage'),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               const SizedBox(height: 16),
               ListTile(
-                title: const Text('中文'),
+                title: Text(context.translate('chinese')),
+                trailing: localeNotifier.locale.languageCode == 'zh'
+                    ? const Icon(Icons.check, color: Colors.green)
+                    : null,
                 onTap: () {
-                  Provider.of<LocaleNotifier>(context, listen: false).setLocale(const Locale('zh'));
+                  localeNotifier.setLocale(const Locale('zh'));
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: const Text('English'),
+                title: Text(context.translate('english')),
+                trailing: localeNotifier.locale.languageCode == 'en'
+                    ? const Icon(Icons.check, color: Colors.green)
+                    : null,
                 onTap: () {
-                  Provider.of<LocaleNotifier>(context, listen: false).setLocale(const Locale('en'));
+                  localeNotifier.setLocale(const Locale('en'));
                   Navigator.pop(context);
                 },
               ),

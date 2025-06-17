@@ -6,6 +6,7 @@ import 'pages/home_page.dart';
 import 'pages/my_page.dart';
 import 'pages/topic_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'localizations/app_localizations.dart';
 
 void main() => runApp(const MyApp());
 
@@ -20,10 +21,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocaleNotifier()),
       ],
       child: Consumer2<ThemeNotifier, LocaleNotifier>(
-        builder: (context, theme, locale, _) {
+        builder: (context, theme, localeNotifier, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: '宠物管理',
+            title: 'FlutterPaws',
             theme: ThemeData(
               primarySwatch: theme.color,
               primaryColor: theme.color,
@@ -35,12 +36,10 @@ class MyApp extends StatelessWidget {
                 elevation: 0,
               ),
             ),
-            locale: locale.locale,
-            supportedLocales: const [
-              Locale('zh'),
-              Locale('en'),
-            ],
+            locale: localeNotifier.locale,
+            supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: const [
+              AppLocalizationsDelegate(),
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
@@ -88,10 +87,19 @@ class _MainScreenState extends State<MainScreen> {
         unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '首页'),
-          BottomNavigationBarItem(icon: Icon(Icons.forum), label: '话题'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home),
+            label: context.translate('home'),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.forum),
+            label: context.translate('topic'),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: context.translate('my'),
+          ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../localizations/app_localizations.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
@@ -13,16 +14,16 @@ class BottomNav extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _NavItem(icon: Icons.home, label: '首页', selected: true),
-            _NavItem(icon: Icons.explore, label: '发现'),
+            _NavItem(icon: Icons.home, label: context.translate('home'), selected: true),
+            _NavItem(icon: Icons.explore, label: context.translate('discover')),
             FloatingActionButton(
               onPressed: () {},
               backgroundColor: Colors.amber,
               child: const Icon(Icons.add, color: Colors.white),
               elevation: 2,
             ),
-            _NavItem(icon: Icons.forum, label: '话题'),
-            _NavItem(icon: Icons.person, label: '我的'),
+            _NavItem(icon: Icons.forum, label: context.translate('topic')),
+            _NavItem(icon: Icons.person, label: context.translate('my')),
           ],
         ),
       ),

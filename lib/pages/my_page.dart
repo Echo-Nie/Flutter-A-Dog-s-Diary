@@ -6,6 +6,7 @@ import 'notifications_page.dart';
 import 'settings_page.dart';
 import 'profile_edit_page.dart';
 import 'pet_management_page.dart';
+import '../localizations/app_localizations.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
@@ -19,7 +20,7 @@ class MyPage extends StatelessWidget {
         backgroundColor: theme.primaryColor,
         elevation: 0,
         centerTitle: true,
-        title: const Text('我的', style: TextStyle(color: Colors.white, fontSize: 20)),
+        title: Text(context.translate('my'), style: const TextStyle(color: Colors.white, fontSize: 20)),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.white),
@@ -91,13 +92,13 @@ class MyPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('我的宠物', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.primaryColor)),
+                Text(context.translate('myPets'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.primaryColor)),
                 GestureDetector(
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const PetManagementPage()),
                   ),
-                  child: Text('全部', style: TextStyle(color: theme.primaryColor.withOpacity(0.7))),
+                  child: Text(context.translate('viewAll'), style: TextStyle(color: theme.primaryColor.withOpacity(0.7))),
                 ),
               ],
             ),
@@ -156,17 +157,17 @@ class MyPage extends StatelessWidget {
             child: Column(
               children: [
                 _SettingItem(
-                  title: '主题设置',
+                  title: context.translate('themeSettings'),
                   onTap: () => _showThemeDialog(context),
                   color: theme.primaryColor,
                 ),
                 _SettingItem(
-                  title: '语言设置',
+                  title: context.translate('languageSettings'),
                   onTap: () => _showLanguageDialog(context),
                   color: theme.primaryColor,
                 ),
                 _SettingItem(
-                  title: '退出登录',
+                  title: context.translate('logout'),
                   color: theme.primaryColor,
                 ),
               ],
@@ -200,7 +201,7 @@ class MyPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('选择主题色', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(context.translate('selectTheme'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 16,
@@ -248,17 +249,17 @@ class MyPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('选择语言', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(context.translate('selectLanguage'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               const SizedBox(height: 16),
               ListTile(
-                title: const Text('中文'),
+                title: Text(context.translate('chinese')),
                 onTap: () {
                   Provider.of<LocaleNotifier>(context, listen: false).setLocale(const Locale('zh'));
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: const Text('English'),
+                title: Text(context.translate('english')),
                 onTap: () {
                   Provider.of<LocaleNotifier>(context, listen: false).setLocale(const Locale('en'));
                   Navigator.pop(context);

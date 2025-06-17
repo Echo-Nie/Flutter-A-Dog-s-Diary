@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pet_card.dart';
+import '../localizations/app_localizations.dart';
 
 class TabSection extends StatefulWidget {
   const TabSection({super.key});
@@ -22,7 +23,7 @@ class _TabSectionState extends State<TabSection> {
             children: [
               GestureDetector(
                 onTap: () => setState(() => _tabIndex = 0),
-                child: Text('关注',
+                child: Text(context.translate('follow'),
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -31,7 +32,7 @@ class _TabSectionState extends State<TabSection> {
               const SizedBox(width: 24),
               GestureDetector(
                 onTap: () => setState(() => _tabIndex = 1),
-                child: Text('推荐',
+                child: Text(context.translate('recommended'),
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
