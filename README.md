@@ -1,5 +1,7 @@
 # 🐾 FlutterPaws 🐾
 
+EN | [中文](README_zh.md)
+
 <p align="center">
   <img src="./assets/logo.png" alt="FlutterPaws Logo" width="45%" />
 </p>
@@ -24,8 +26,6 @@
 ![GitHub Forks](https://img.shields.io/github/forks/Echo-Nie/FlutterPaws?style=social)
 
 </div>
-
-EN | [中文](README_zh.md)
 
 
 ## 📖 Project Overview
