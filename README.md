@@ -25,6 +25,8 @@
 
 </div>
 
+EN | [中文](README_zh.md)
+
 
 ## 📖 Project Overview
 FlutterPaws is a comprehensive, cross-platform pet diary application developed using the Flutter framework. Designed to address the core needs of pet owners, this application provides modules for diary entries, schedule management, health tracking, and photo galleries, offering a complete solution for pet lifestyle management.
@@ -64,14 +66,14 @@ FlutterPaws is a comprehensive, cross-platform pet diary application developed u
 
 #### Core Technology Stack
 
-| Component       | Version  | Description                     |
-|-----------------|----------|---------------------------------|
-| **Flutter**     | 3.7.0    | Cross-platform UI framework     |
-| **Dart**        | 3.0.0    | Programming language with null safety |
-| **Provider**    | 6.1.2    | State management for themes, language, and data |
-| **SharedPreferences**| 2.2.2  | Local lightweight data persistence |
-| **Flutter Localizations**| -    | Multi-language support system   |
-| **Cupertino Icons**| 1.0.8   | iOS-style icon library          |
+| Component                 | Version | Description                                     |
+| ------------------------- | ------- | ----------------------------------------------- |
+| **Flutter**               | 3.7.0   | Cross-platform UI framework                     |
+| **Dart**                  | 3.0.0   | Programming language with null safety           |
+| **Provider**              | 6.1.2   | State management for themes, language, and data |
+| **SharedPreferences**     | 2.2.2   | Local lightweight data persistence              |
+| **Flutter Localizations** | -       | Multi-language support system                   |
+| **Cupertino Icons**       | 1.0.8   | iOS-style icon library                          |
 
 #### Key Technical Features
 1. **Responsive Design**: Adaptive layout using `LayoutBuilder` for consistent experience across phones, tablets, and web
@@ -91,14 +93,14 @@ FlutterPaws is a comprehensive, cross-platform pet diary application developed u
 │   │   ├── HomePage.dart       # Dashboard with diary timeline and quick actions
 │   │   ├── CalendarPage.dart   # Schedule visualization
 │   │   ├── HealthPage.dart     # Health metrics dashboard
-│   ├── widgets/       # Reusable components
-│   │   ├── PetCard.dart        # Pet profile with status indicators
-│   │   ├── DiaryItem.dart      # Diary entry with media preview
-│   │   └── ReminderTile.dart   # Reminder widget with countdown
-├── config/            # Configuration
-│   ├── themes/        # Theme settings (Light/Dark modes)
-│   └── locales/       # Localization resources (zh_CN/en_US)
-└── main.dart          # Application entry point
+│   │   ├── widgets/       # Reusable components
+│   │   │   ├── PetCard.dart        # Pet profile with status indicators
+│   │   │   ├── DiaryItem.dart      # Diary entry with media preview
+│   │   │   └── ReminderTile.dart   # Reminder widget with countdown
+│   ├── config/            # Configuration
+│   │   ├── themes/        # Theme settings (Light/Dark modes)
+│   │   └── locales/       # Localization resources (zh_CN/en_US)
+│   └── main.dart          # Application entry point
 ```
 
 
