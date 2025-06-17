@@ -1,0 +1,21 @@
+0 Labrador
+1 Husky
+2 Golden Retriever
+3 Samoyed
+4 Corgi
+5 Poodle
+6 Dachshund
+7 German Shepherd
+8 Chihuahua
+9 Shiba Inu
+10 Pomeranian
+11 Beagle
+12 Bulldog
+13 Border Collie
+14 Rottweiler
+15 Pug
+16 Bichon Frise
+17 Shih Tzu
+18 Great Dane
+19 Doberman
+20 Schnauzer 

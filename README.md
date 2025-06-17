@@ -17,6 +17,23 @@ A modern pet management application built with Flutter, designed to help pet own
 - Topic Discussion
 - Multi-language Support
 - Dark Mode Support
+- Pet Breed Recognition
+
+## Pet Breed Recognition
+
+The application provides pet breed recognition functionality, using TensorFlow Lite models to identify different breeds of pets.
+
+### How to Configure Pet Breed Recognition
+
+1. Place the following files in the assets directory:
+   - `model_unquant.tflite`: TensorFlow Lite model file
+   - `labels.txt`: Label file containing names of recognized pet breeds
+
+2. Model retrieval:
+   - Can be downloaded from TensorFlow Hub
+   - Or use a self-trained TensorFlow model and convert it to TFLite format
+
+Detailed configuration instructions can be found in: [assets/README.md](assets/README.md)
 
 ## Getting Started
 

@@ -51,20 +51,20 @@ class MyPage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const ProfileEditPage()),
                   ),
                   child: Row(
-                    children: [
-                      const SizedBox(width: 24),
-                      CircleAvatar(
-                        radius: 36,
-                        backgroundImage: const AssetImage('img/dog_avatar.png'),
-                        backgroundColor: theme.primaryColor,
-                      ),
-                      const SizedBox(width: 16),
-                      const Expanded(
-                        child: Text('聂宇旋', style: TextStyle(fontSize: 20, color: Colors.white)),
-                      ),
-                      const Icon(Icons.chevron_right, color: Colors.white),
-                      const SizedBox(width: 24),
-                    ],
+                  children: [
+                    const SizedBox(width: 24),
+                    CircleAvatar(
+                      radius: 36,
+                      backgroundImage: const AssetImage('img/dog_avatar.png'),
+                      backgroundColor: theme.primaryColor,
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Text('聂宇旋', style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ),
+                    const Icon(Icons.chevron_right, color: Colors.white),
+                    const SizedBox(width: 24),
+                  ],
                   ),
                 ),
                 const SizedBox(height: 16),
