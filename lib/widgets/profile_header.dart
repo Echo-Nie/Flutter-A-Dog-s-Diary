@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import '../pages/pet_management_page.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  final String currentTime;
+  final DateTime petBirthday = DateTime(2023, 3, 15); // 假设宠物的生日是2023年3月15日
+  
+  ProfileHeader({super.key, required this.currentTime});
+
+  int _calculateDaysWithPet() {
+    final now = DateTime.now();
+    return now.difference(petBirthday).inDays;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final daysWithPet = _calculateDaysWithPet();
+    
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -21,9 +32,13 @@ class ProfileHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('14:00', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(currentTime, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const PetManagementPage()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black87,
@@ -40,7 +55,7 @@ class ProfileHeader extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 32,
-                backgroundImage: AssetImage('images/dog_avatar.png'),
+                backgroundImage: AssetImage('img/dog_avatar.png'),
               ),
               const SizedBox(width: 16),
               Column(
@@ -48,15 +63,15 @@ class ProfileHeader extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Text('聂宇旋', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const Text('聂宇旋', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                       const SizedBox(width: 4),
-                      Icon(Icons.crop, color: Theme.of(context).primaryColor, size: 20),
+                      Icon(Icons.crop, color: Colors.white, size: 20),
                     ],
                   ),
                   const SizedBox(height: 4),
-                  const Text('已陪伴 xx 天', style: TextStyle(fontSize: 16)),
+                  Text('已陪伴 $daysWithPet 天', style: const TextStyle(fontSize: 16, color: Colors.white)),
                   const SizedBox(height: 4),
-                  const Text('1岁2个月萨摩耶 | 12KG', style: TextStyle(fontSize: 14, color: Colors.black54)),
+                  const Text('1岁2个月萨摩耶 | 12KG', style: TextStyle(fontSize: 14, color: Colors.white70)),
                 ],
               ),
             ],

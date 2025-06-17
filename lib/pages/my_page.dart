@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme_notifier.dart';
 import '../locale_notifier.dart';
+import 'notifications_page.dart';
+import 'settings_page.dart';
+import 'profile_edit_page.dart';
+import 'pet_management_page.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
@@ -17,8 +21,20 @@ class MyPage extends StatelessWidget {
         centerTitle: true,
         title: const Text('我的', style: TextStyle(color: Colors.white, fontSize: 20)),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications_none, color: Colors.white), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.settings, color: Colors.white), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.notifications_none, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NotificationsPage()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsPage()),
+            ),
+          ),
         ],
       ),
       body: Column(
@@ -28,21 +44,27 @@ class MyPage extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 24),
-                    CircleAvatar(
-                      radius: 36,
-                      backgroundImage: const AssetImage('img/dog_avatar.png'),
-                      backgroundColor: theme.primaryColor,
-                    ),
-                    const SizedBox(width: 16),
-                    const Expanded(
-                      child: Text('聂宇旋', style: TextStyle(fontSize: 20, color: Colors.white)),
-                    ),
-                    const Icon(Icons.chevron_right, color: Colors.white),
-                    const SizedBox(width: 24),
-                  ],
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProfileEditPage()),
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 24),
+                      CircleAvatar(
+                        radius: 36,
+                        backgroundImage: const AssetImage('img/dog_avatar.png'),
+                        backgroundColor: theme.primaryColor,
+                      ),
+                      const SizedBox(width: 16),
+                      const Expanded(
+                        child: Text('聂宇旋', style: TextStyle(fontSize: 20, color: Colors.white)),
+                      ),
+                      const Icon(Icons.chevron_right, color: Colors.white),
+                      const SizedBox(width: 24),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -70,7 +92,13 @@ class MyPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('我的宠物', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.primaryColor)),
-                Text('全部', style: TextStyle(color: theme.primaryColor.withOpacity(0.7))),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PetManagementPage()),
+                  ),
+                  child: Text('全部', style: TextStyle(color: theme.primaryColor.withOpacity(0.7))),
+                ),
               ],
             ),
           ),

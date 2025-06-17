@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../pages/calendar_page.dart';
 import '../pages/guide_page.dart';
 import '../pages/todo_page.dart';
+import '../pages/health_page.dart';
+import '../pages/weight_page.dart';
 
 class FunctionButtons extends StatelessWidget {
   const FunctionButtons({super.key});
@@ -33,8 +35,22 @@ class FunctionButtons extends StatelessWidget {
             },
             child: _FuncBtn(icon: Icons.calendar_today, label: '签到打卡', color: Theme.of(context).primaryColor),
           ),
-          _FuncBtn(icon: Icons.health_and_safety, label: '健康管理', color: Theme.of(context).primaryColor),
-          _FuncBtn(icon: Icons.monitor_weight, label: '记录体重', color: Theme.of(context).primaryColor),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const HealthPage()),
+              );
+            },
+            child: _FuncBtn(icon: Icons.health_and_safety, label: '健康管理', color: Theme.of(context).primaryColor),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const WeightPage()),
+              );
+            },
+            child: _FuncBtn(icon: Icons.monitor_weight, label: '记录体重', color: Theme.of(context).primaryColor),
+          ),
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(

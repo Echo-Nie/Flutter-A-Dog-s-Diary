@@ -1,11 +1,107 @@
 import 'package:flutter/material.dart';
 import 'topic_detail_page.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 
-class TopicPage extends StatelessWidget {
+class TopicPage extends StatefulWidget {
   const TopicPage({super.key});
 
   @override
+  State<TopicPage> createState() => _TopicPageState();
+}
+
+class _TopicPageState extends State<TopicPage> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  String _selectedCategory = '';
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  bool _isListening = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  /// 初始化语音识别
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  /// 开始语音识别
+  void _startListening() async {
+    if (_speechEnabled) {
+      setState(() {
+        _isListening = true;
+      });
+      await _speechToText.listen(
+        onResult: _onSpeechResult,
+        localeId: 'zh_CN', // 设置为中文识别
+      );
+    }
+  }
+
+  /// 停止语音识别
+  void _stopListening() async {
+    if (_speechEnabled) {
+      await _speechToText.stop();
+      setState(() {
+        _isListening = false;
+      });
+    }
+  }
+
+  /// 处理语音识别结果
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _searchController.text = result.recognizedWords;
+      _searchQuery = result.recognizedWords;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // 根据搜索条件过滤话题
+    List<int> filteredTopics = List.generate(10, (index) => index);
+    
+    // 应用搜索关键词筛选
+    if (_searchQuery.isNotEmpty) {
+      filteredTopics = filteredTopics.where((index) {
+        final title = _getTopicTitle(index).toLowerCase();
+        final description = _getTopicDescription(index).toLowerCase();
+        final tags = _getTopicTags(index).join(' ').toLowerCase();
+        final query = _searchQuery.toLowerCase();
+        return title.contains(query) || description.contains(query) || tags.contains(query);
+      }).toList();
+    }
+
+    // 应用分类筛选
+    if (_selectedCategory.isNotEmpty) {
+      filteredTopics = filteredTopics.where((index) {
+        if (_selectedCategory == '医疗') {
+          return _getTopicTags(index).contains('医疗');
+        } else if (_selectedCategory == '经验') {
+          return _getTopicTags(index).contains('经验分享') || _getTopicTitle(index).contains('经验');
+        } else if (_selectedCategory == '求助') {
+          return _getTopicTitle(index).contains('怎么办') || _getTopicTitle(index).contains('如何');
+        } else if (_selectedCategory == '晒宠') {
+          return _getTopicTitle(index).contains('晒');
+        } else if (_selectedCategory == '热门') {
+          // 热门标签不过滤，默认显示所有
+          return true;
+        }
+        return false;
+      }).toList();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('话题'),
@@ -30,10 +126,38 @@ class TopicPage extends StatelessWidget {
               ),
             ),
             child: TextField(
+              controller: _searchController,
               decoration: InputDecoration(
                 hintText: '搜索宠物话题、经验分享...',
                 prefixIcon: const Icon(Icons.search),
-                suffixIcon: const Icon(Icons.mic),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // 语音输入按钮
+                    IconButton(
+                      icon: Icon(
+                        _isListening ? Icons.mic : Icons.mic_none,
+                        color: _isListening ? Theme.of(context).primaryColor : Colors.grey,
+                      ),
+                      onPressed: _speechEnabled
+                          ? (_isListening ? _stopListening : _startListening)
+                          : null,
+                      tooltip: _isListening ? '停止语音输入' : '语音输入',
+                    ),
+                    // 清除按钮
+                    if (_searchController.text.isNotEmpty)
+                      IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            _searchController.clear();
+                            _searchQuery = '';
+                          });
+                        },
+                        tooltip: '清除',
+                      ),
+                  ],
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide.none,
@@ -42,8 +166,54 @@ class TopicPage extends StatelessWidget {
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),
               ),
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              onSubmitted: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
             ),
           ),
+          
+          // 语音识别状态提示
+          if (_isListening)
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.mic, color: Theme.of(context).primaryColor, size: 16),
+                        const SizedBox(width: 8),
+                        Text(
+                          '正在聆听...',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: _stopListening,
+                    child: const Text('取消'),
+                  ),
+                ],
+              ),
+            ),
           
           // 话题分类
           Container(
@@ -63,44 +233,109 @@ class TopicPage extends StatelessWidget {
           ),
 
           // 话题列表
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                final title = _getTopicTitle(index);
-                final description = _getTopicDescription(index);
-                final participants = _getRandomNumber(1000, 5000, index);
-                final comments = _getRandomNumber(50, 200, index);
-                final tags = _getTopicTags(index);
-                
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TopicDetailPage(
+          filteredTopics.isEmpty 
+              ? Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
+                        const SizedBox(height: 16),
+                        Text(
+                          '没有找到相关话题',
+                          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          '尝试使用其他关键词搜索',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: filteredTopics.length,
+                    itemBuilder: (context, i) {
+                      final index = filteredTopics[i];
+                      final title = _getTopicTitle(index);
+                      final description = _getTopicDescription(index);
+                      final participants = _getRandomNumber(1000, 5000, index);
+                      final comments = _getRandomNumber(50, 200, index);
+                      final tags = _getTopicTags(index);
+                      
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TopicDetailPage(
+                                title: title,
+                                description: description,
+                                participants: participants,
+                                comments: comments,
+                                tags: tags,
+                              ),
+                            ),
+                          );
+                        },
+                        child: _buildTopicItem(
                           title: title,
                           description: description,
                           participants: participants,
                           comments: comments,
                           tags: tags,
                         ),
-                      ),
-                    );
-                  },
-                  child: _buildTopicItem(
-                    title: title,
-                    description: description,
-                    participants: participants,
-                    comments: comments,
-                    tags: tags,
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          ),
+                ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryItem(String title, IconData icon, Color color) {
+    final isSelected = _selectedCategory == title;
+    
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (_selectedCategory == title) {
+            _selectedCategory = ''; // 取消选择
+          } else {
+            _selectedCategory = title; // 选择新类别
+          }
+        });
+      },
+      child: Container(
+        width: 80,
+        margin: const EdgeInsets.only(right: 16),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withOpacity(0.3) : color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? color : color.withOpacity(0.3),
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 28),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 14,
+                color: color,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -155,33 +390,6 @@ class TopicPage extends StatelessWidget {
 
   int _getRandomNumber(int min, int max, int index) {
     return min + (index % (max - min));
-  }
-
-  Widget _buildCategoryItem(String title, IconData icon, Color color) {
-    return Container(
-      width: 80,
-      margin: const EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: color, size: 28),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              color: color,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildTopicItem({
