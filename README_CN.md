@@ -77,6 +77,7 @@ FlutterPaws 是一个使用 Flutter 框架开发的全平台宠物日记应用�
  - **日历记录 📅:** 基于日历的界面，带有活动标记。记录功能包括洗澡、散步、体重记录等。医疗记录部分包括医院名称、诊断和描述
 
 ![image](https://github.com/user-attachments/assets/5fc24d68-b51c-4824-833b-86f62610c3b8)
+<img width="1959" height="1099" alt="image" src="https://github.com/user-attachments/assets/22076c86-f937-4d2b-9a6d-db3e079277ee" />
 
 ## 💻 技术架构
 
