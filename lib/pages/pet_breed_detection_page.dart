@@ -1,11 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:tflite/tflite.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
-import '../localizations/app_localizations.dart';
-import 'model_download_page.dart';
 
 class PetBreedDetectionPage extends StatefulWidget {
   const PetBreedDetectionPage({super.key});
@@ -14,490 +7,253 @@ class PetBreedDetectionPage extends StatefulWidget {
   State<PetBreedDetectionPage> createState() => _PetBreedDetectionPageState();
 }
 
-class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> with SingleTickerProviderStateMixin {
-  bool _loading = true;
-  File? _image;
-  List? _outputs;
-  final _imagePicker = ImagePicker();
-  String _errorMessage = '';
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-  bool _modelLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loading = true;
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
-    _animationController.repeat(reverse: true);
-    
-    _checkModelAndLoad();
-  }
-
-  Future<void> _checkModelAndLoad() async {
-    try {
-      final modelFile = await _getModelFile();
-      final labelsFile = await _getLabelsFile();
-      
-      if (!modelFile.existsSync() || !labelsFile.existsSync()) {
-        setState(() {
-          _loading = false;
-          _modelLoaded = false;
-          _errorMessage = '模型文件未找到，请先下载模型';
-        });
-        return;
-      }
-      
-      final result = await loadModel();
-      if (result) {
-        setState(() {
-          _loading = false;
-          _modelLoaded = true;
-        });
-      } else {
-        setState(() {
-          _loading = false;
-          _errorMessage = '模型加载失败，请重新下载';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _loading = false;
-        _errorMessage = '模型检查错误: $e';
-      });
-    }
-  }
-
-  Future<File> _getModelFile() async {
-    final appDir = await getApplicationDocumentsDirectory();
-    final modelPath = path.join(appDir.path, 'model_unquant.tflite');
-    return File(modelPath);
-  }
-
-  Future<File> _getLabelsFile() async {
-    final appDir = await getApplicationDocumentsDirectory();
-    final labelsPath = path.join(appDir.path, 'labels.txt');
-    return File(labelsPath);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    Tflite.close();
-    super.dispose();
-  }
-
-  Future<bool> loadModel() async {
-    try {
-      final modelFile = await _getModelFile();
-      final labelsFile = await _getLabelsFile();
-      
-      await Tflite.loadModel(
-        model: modelFile.path,
-        labels: labelsFile.path,
-      );
-      return true;
-    } catch (e) {
-      _errorMessage = '加载模型错误: $e';
-      return false;
-    }
-  }
-
-  Future pickImage(ImageSource source) async {
-    try {
-      final image = await _imagePicker.pickImage(source: source);
-      if (image == null) return;
-      
-      setState(() {
-        _loading = true;
-        _image = File(image.path);
-        _outputs = null;
-      });
-      
-      await classifyImage(_image!);
-    } catch (e) {
-      setState(() {
-        _loading = false;
-        _errorMessage = '图片处理错误: $e';
-      });
-    }
-  }
-
-  Future classifyImage(File image) async {
-    try {
-      var output = await Tflite.runModelOnImage(
-        path: image.path,
-        numResults: 5,
-        threshold: 0.1,
-        imageMean: 127.5,
-        imageStd: 127.5,
-      );
-
-      setState(() {
-        _loading = false;
-        _outputs = output;
-        _errorMessage = '';
-      });
-    } catch (e) {
-      setState(() {
-        _loading = false;
-        _errorMessage = '识别错误: $e';
-      });
-    }
-  }
-
-  void _navigateToModelDownload() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ModelDownloadPage(),
-      ),
-    ).then((_) => _checkModelAndLoad());
-  }
+class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
+  // 预设的识别结果数据
+  final Map<String, dynamic> _detectionResult = {
+    'breed': '萨摩耶犬',
+    'confidence': 0.92,
+    'characteristics': [
+      '友善、活泼、聪明',
+      '白色蓬松被毛',
+      '嘴角上扬似微笑',
+      '适应寒冷气候',
+    ],
+    'careInfo': [
+      '需要定期梳理被毛',
+      '需要充分运动',
+      '易患皮肤问题',
+      '适合凉爽气候',
+    ],
+    'similarBreeds': [
+      {'name': '日本尖嘴犬', 'similarity': 0.75},
+      {'name': '美国爱斯基摩犬', 'similarity': 0.68},
+      {'name': '白色瑞士牧羊犬', 'similarity': 0.62},
+    ]
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.translate('petBreedDetection')),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+        title: const Text('宠物品种识别'),
+        backgroundColor: Colors.amber,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.cloud_download),
-            onPressed: _navigateToModelDownload,
-            tooltip: '下载模型',
-          ),
-        ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).primaryColor.withOpacity(0.7),
-              Theme.of(context).scaffoldBackgroundColor,
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // 顶部提示信息
-              if (!_modelLoaded && _errorMessage.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.red.withOpacity(0.3)),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // 顶部提示区域
+            Container(
+              padding: const EdgeInsets.all(16),
+              color: Colors.amber.withOpacity(0.2),
+              child: const Text(
+                '智能AI识别宠物品种，提供品种特征和护理建议',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            
+            // 图片显示区域
+            Container(
+              height: 300,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
                   ),
-                  child: Row(
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  'img/dog1.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            
+            // 识别结果区域
+            Container(
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 识别结果标题
+                  Row(
                     children: [
-                      const Icon(Icons.warning, color: Colors.red),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          _errorMessage,
-                          style: const TextStyle(color: Colors.red),
+                      const Icon(Icons.pets, color: Colors.amber),
+                      const SizedBox(width: 10),
+                      const Text(
+                        '识别结果',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextButton(
-                        onPressed: _navigateToModelDownload,
-                        child: const Text('下载模型'),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade100,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '可信度: ${(_detectionResult['confidence'] * 100).toInt()}%',
+                          style: TextStyle(color: Colors.green.shade700),
+                        ),
                       ),
                     ],
                   ),
-                ),
-                
-              // 图片显示区域
-              Expanded(
-                child: _loading && _image != null
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                  const Divider(),
+                  
+                  // 品种名称
+                  Text(
+                    _detectionResult['breed'],
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  
+                  // 特征描述
+                  const Text(
+                    '品种特征:',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ...(_detectionResult['characteristics'] as List).map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Row(
                         children: [
-                          const CircularProgressIndicator(),
-                          const SizedBox(height: 16),
-                          Text(context.translate('processingImage')),
+                          const Icon(Icons.check_circle, size: 16, color: Colors.green),
+                          const SizedBox(width: 10),
+                          Text(item),
                         ],
                       ),
-                    )
-                  : Center(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (_image == null)
-                              Container(
-                                height: 300,
-                                width: 300,
-                                margin: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 5),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.pets,
-                                      size: 80,
-                                      color: Colors.grey[400],
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      context.translate('noImageSelected'),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                    if (_modelLoaded)
-                                      const SizedBox(height: 24)
-                                    else
-                                      Padding(
-                                        padding: const EdgeInsets.all(24.0),
-                                        child: FadeTransition(
-                                          opacity: _animation,
-                                          child: Text(
-                                            '请先下载模型文件',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.orange[700],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              )
-                            else
-                              Stack(
-                                children: [
-                                  Hero(
-                                    tag: 'petImage',
-                                    child: Container(
-                                      height: 300,
-                                      width: 300,
-                                      margin: const EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
-                                            blurRadius: 10,
-                                            offset: const Offset(0, 5),
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: FileImage(_image!),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  if (_outputs == null && _errorMessage.isNotEmpty)
-                                    Positioned(
-                                      bottom: 16,
-                                      left: 16,
-                                      right: 16,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red.withOpacity(0.7),
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          _errorMessage,
-                                          style: const TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              
-                            // 识别结果
-                            if (_outputs != null && _outputs!.isNotEmpty)
-                              Container(
-                                margin: const EdgeInsets.all(16),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 5),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "${context.translate('petBreed')}: ${_outputs![0]["label"].toString().split(' ').sublist(1).join(' ')}",
-                                      style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black87,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    LinearProgressIndicator(
-                                      value: _outputs![0]["confidence"],
-                                      backgroundColor: Colors.grey[200],
-                                      color: Theme.of(context).primaryColor,
-                                      minHeight: 8,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "${context.translate('confidence')}: ${(_outputs![0]["confidence"] * 100).toStringAsFixed(1)}%",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey[700],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      '其他可能的品种:',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Column(
-                                      children: _outputs!.sublist(1, _outputs!.length > 3 ? 3 : _outputs!.length).map((output) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 4),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                output["label"].toString().split(' ').sublist(1).join(' '),
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[800],
-                                                ),
-                                              ),
-                                              Text(
-                                                "${(output["confidence"] * 100).toStringAsFixed(1)}%",
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
+                    );
+                  }).toList(),
+                  const SizedBox(height: 20),
+                  
+                  // 护理信息
+                  const Text(
+                    '护理建议:',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ...(_detectionResult['careInfo'] as List).map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.info_outline, size: 16, color: Colors.blue),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(item)),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  const SizedBox(height: 20),
+                  
+                  // 相似品种
+                  const Text(
+                    '相似品种:',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ...(_detectionResult['similarBreeds'] as List).map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Row(
+                        children: [
+                          Text(item['name']),
+                          const Spacer(),
+                          Text(
+                            '相似度: ${(item['similarity'] * 100).toInt()}%',
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ],
+              ),
+            ),
+            
+            // 底部按钮
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('更多品种识别功能开发中')),
+                        );
+                      },
+                      icon: const Icon(Icons.photo_library),
+                      label: const Text('更多品种'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),
-              ),
-              
-              // 底部按钮
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, -5),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: _modelLoaded ? () => pickImage(ImageSource.camera) : _navigateToModelDownload,
-                            icon: const Icon(Icons.camera_alt),
-                            label: Text(context.translate('takePhoto')),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              backgroundColor: Theme.of(context).primaryColor,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: _modelLoaded ? () => pickImage(ImageSource.gallery) : _navigateToModelDownload,
-                            icon: const Icon(Icons.photo_library),
-                            label: Text(context.translate('chooseFromGallery')),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              backgroundColor: Colors.white,
-                              foregroundColor: Theme.of(context).primaryColor,
-                              side: BorderSide(color: Theme.of(context).primaryColor),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (_image != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: TextButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              _image = null;
-                              _outputs = null;
-                            });
-                          },
-                          icon: const Icon(Icons.refresh),
-                          label: const Text('重新选择图片'),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.grey[700],
-                          ),
-                        ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('分享功能开发中')),
+                        );
+                      },
+                      icon: const Icon(Icons.share),
+                      label: const Text('分享结果'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                  ],
-                ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

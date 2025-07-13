@@ -5,6 +5,7 @@ import 'locale_notifier.dart';
 import 'pages/home_page.dart';
 import 'pages/my_page.dart';
 import 'pages/topic_page.dart';
+import 'pages/pet_breed_detection_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localizations/app_localizations.dart';
 
@@ -64,6 +65,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomePage(),
+    const PetBreedDetectionPage(),
     const TopicPage(),
     const MyPage(),
   ];
@@ -91,6 +93,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.home),
             label: context.translate('home'),
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.pets),
+            label: '宠物识别',
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.forum),
