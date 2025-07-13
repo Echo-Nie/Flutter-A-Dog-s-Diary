@@ -60,6 +60,7 @@ FlutterPaws is a full-platform pet diary application developed using the Flutter
  - **Calendar Records 📅:** Calendar-based interface with activity markers. Recording functions include bathing, walking, weight records, etc. Medical record section includes hospital name, diagnosis, and description.
 
 ![image](https://github.com/user-attachments/assets/5fc24d68-b51c-4824-833b-86f62610c3b8)
+<img width="1959" height="1099" alt="image" src="https://github.com/user-attachments/assets/4355f85c-7a27-41de-9e73-247152624de0" />
 
 ## 💻 Technical Architecture
 
