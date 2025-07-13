@@ -40,60 +40,60 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Column(
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+            children: [
             // 顶部提示区域
-            Container(
+                Container(
               padding: const EdgeInsets.all(16),
               color: Colors.amber.withOpacity(0.2),
               child: const Text(
                 '智能AI识别宠物品种，提供品种特征和护理建议',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
-              ),
-            ),
-            
-            // 图片显示区域
-            Container(
-              height: 300,
+                  ),
+                ),
+                
+              // 图片显示区域
+                              Container(
+                                height: 300,
               margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
+                                decoration: BoxDecoration(
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
+                                  boxShadow: [
+                                    BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
+                                    ),
+                                  ],
+                                ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
                   'img/dog1.png',
                   fit: BoxFit.cover,
-                ),
-              ),
-            ),
+                                            ),
+                                          ),
+                                        ),
             
             // 识别结果区域
             Container(
               margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
+                                      decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
+                                        boxShadow: [
+                                          BoxShadow(
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
-                  ),
-                ],
+                                          ),
+                                        ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,38 +113,38 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
                       const Spacer(),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
+                                        decoration: BoxDecoration(
                           color: Colors.green.shade100,
                           borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
+                                        ),
+                                        child: Text(
                           '可信度: ${(_detectionResult['confidence'] * 100).toInt()}%',
                           style: TextStyle(color: Colors.green.shade700),
-                        ),
-                      ),
-                    ],
-                  ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                   const Divider(),
                   
                   // 品种名称
-                  Text(
+                                    Text(
                     _detectionResult['breed'],
-                    style: const TextStyle(
+                                      style: const TextStyle(
                       fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.bold,
                       color: Colors.amber,
-                    ),
-                  ),
+                                    ),
+                                    ),
                   const SizedBox(height: 20),
                   
                   // 特征描述
                   const Text(
                     '品种特征:',
-                    style: TextStyle(
-                      fontSize: 16,
+                                      style: TextStyle(
+                                        fontSize: 16,
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                                      ),
+                                    ),
                   const SizedBox(height: 10),
                   ...(_detectionResult['characteristics'] as List).map((item) {
                     return Padding(
@@ -163,18 +163,18 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
                   // 护理信息
                   const Text(
                     '护理建议:',
-                    style: TextStyle(
+                                      style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                   const SizedBox(height: 10),
                   ...(_detectionResult['careInfo'] as List).map((item) {
-                    return Padding(
+                                        return Padding(
                       padding: const EdgeInsets.only(bottom: 5),
-                      child: Row(
+                                          child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                                            children: [
                           const Icon(Icons.info_outline, size: 16, color: Colors.blue),
                           const SizedBox(width: 10),
                           Expanded(child: Text(item)),
@@ -187,11 +187,11 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
                   // 相似品种
                   const Text(
                     '相似品种:',
-                    style: TextStyle(
+                                                style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                                                ),
+                                              ),
                   const SizedBox(height: 10),
                   ...(_detectionResult['similarBreeds'] as List).map((item) {
                     return Padding(
@@ -200,25 +200,25 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
                         children: [
                           Text(item['name']),
                           const Spacer(),
-                          Text(
+                                              Text(
                             '相似度: ${(item['similarity'] * 100).toInt()}%',
                             style: TextStyle(color: Colors.grey.shade600),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                          ],
+                    ),
               ),
-            ),
-            
-            // 底部按钮
+              
+              // 底部按钮
             Padding(
               padding: const EdgeInsets.all(20),
               child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('更多品种识别功能开发中')),
@@ -226,16 +226,16 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
                       },
                       icon: const Icon(Icons.photo_library),
                       label: const Text('更多品种'),
-                      style: ElevatedButton.styleFrom(
+                            style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                    ),
-                  ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              ),
+                            ),
+                          ),
                   const SizedBox(width: 20),
-                  Expanded(
-                    child: ElevatedButton.icon(
+                        Expanded(
+                          child: ElevatedButton.icon(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('分享功能开发中')),
@@ -243,17 +243,17 @@ class _PetBreedDetectionPageState extends State<PetBreedDetectionPage> {
                       },
                       icon: const Icon(Icons.share),
                       label: const Text('分享结果'),
-                      style: ElevatedButton.styleFrom(
+                            style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
         ),
       ),
     );

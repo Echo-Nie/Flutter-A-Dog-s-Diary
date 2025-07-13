@@ -12,6 +12,7 @@
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![Provider](https://img.shields.io/badge/Provider-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![shared_preferences](https://img.shields.io/badge/shared_preferences-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![TensorFlow Lite](https://img.shields.io/badge/TensorFlow_Lite-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
 ![Material Design](https://img.shields.io/badge/Material%20Design-757575?style=for-the-badge&logo=material-design&logoColor=white)
 ![Cupertino](https://img.shields.io/badge/Cupertino-000000?style=for-the-badge&logo=apple&logoColor=white)
 ![Font Awesome](https://img.shields.io/badge/Font%20Awesome-4285F4?style=for-the-badge&logo=font-awesome&logoColor=white)
@@ -51,6 +52,22 @@ FlutterPaws is a full-platform pet diary application developed using the Flutter
 - Medication Reminders: Dose calculation based on pet weight (e.g., weight × 2mg/kg)
 - Quarterly Health Reports: Automatically generates BMI analysis and vaccine expiration tracking
 
+#### 🔍 Pet Breed Detection
+- AI Intelligence: Pet breed detection based on TensorFlow Lite
+- Detailed Breed Information: Displays breed characteristics, care recommendations, and similar breeds
+- High Accuracy Recognition: Provides confidence rating for detection results
+- Sharing Function: Supports sharing detection results to social platforms
+
+#### 📱 Community Interaction
+- Topic Sharing: Users can post and browse pet-related topics
+- Category Management: Support for filtering and browsing content by topic category
+- Search Functionality: Keyword-based topic content search
+
+#### ⚙️ Personalization Settings
+- Theme Switching: Support for light and dark modes
+- Multilingual Support: Seamless switching between Chinese and English
+- Profile Management: User information customization and pet profile management
+
 ## 🐾 Pet Management Application Prototype (MasterGo)
 
  - **Points Redemption 🛒:** Displays current points balance. "View Details" button to check transaction history. List of redeemable items including dog food, snacks, beds, and water bottles.
@@ -65,19 +82,30 @@ FlutterPaws is a full-platform pet diary application developed using the Flutter
 
 #### Core Technology Stack
 
-| Component                      | Version  | Description                       |
-| -------------------------------| -------- | ----------------------------------|
-| **Flutter**                    | 3.7.0    | Cross-platform UI framework       |
-| **Dart**                       | 3.0.0    | Null-safe programming language    |
-| **Provider**                   | 6.1.2    | State management for themes, languages, and data |
-| **SharedPreferences**          | 2.2.2    | Lightweight local data persistence |
-| **Flutter Localizations**      | -        | Multilingual support system       |
-| **Cupertino Icons**            | 1.0.8    | iOS-style icon library            |
+| Component                 | Version | Description                                      |
+| ------------------------- | ------- | ------------------------------------------------ |
+| **Flutter**               | 3.7.0   | Cross-platform UI framework                      |
+| **Dart**                  | 3.0.0   | Null-safe programming language                   |
+| **Provider**              | 6.1.2   | State management for themes, languages, and data |
+| **SharedPreferences**     | 2.2.2   | Lightweight local data persistence               |
+| **TensorFlow Lite**       | 1.1.2   | Mobile machine learning model runtime            |
+| **Http**                  | 1.2.0   | Network request management                       |
+| **SQLite**                | 2.3.2   | Local database storage                           |
+| **Flutter Localizations** | -       | Multilingual support system                      |
+| **Image Picker**          | 1.0.7   | Image selection utility                          |
+| **FL Chart**              | 0.66.2  | Data visualization charts                        |
+| **Intl**                  | 0.19.0  | Internationalization support                     |
+| **Table Calendar**        | 3.0.9   | Calendar component                               |
+| **Cached Network Image**  | 3.3.1   | Network image caching                            |
 
 #### Key Technical Features
 1. **Responsive Design**: Uses `LayoutBuilder` to achieve adaptive layouts, ensuring consistent experience across phones, tablets, and web
-2. **Hybrid Integration**: Implements native system interactions (local notifications, album access) via `platform_channel`
-3. **Performance Optimization**: Uses `ListView.builder` for virtualized rendering of large lists
+2. **Multilingual Support**: Complete internationalization support based on `AppLocalizations`, supporting English and Chinese switching
+3. **Dynamic Theme Switching**: Seamless light and dark theme switching using `Provider` to enhance user experience
+4. **Intelligent Detection Integration**: Local pet breed detection functionality implemented with `TensorFlow Lite`
+5. **Hybrid Integration**: Implements native system interactions (local notifications, album access) via `platform_channel`
+6. **Performance Optimization**: Uses `ListView.builder` for virtualized rendering of large lists
+7. **Local Persistence**: Data storage strategy combining `SharedPreferences` and `SQLite`
 
 ## 📦 Project Structure
 
@@ -87,18 +115,21 @@ lib/
 │   ├── models/        # Data models (Pet.dart, Diary.dart, HealthRecord.dart)
 │   ├── services/      # Business logic (NotificationService, HealthService)
 │   └── utils/         # Utility classes (DateUtil, ImageUtil, ThemeUtil)
-├── presentation/      # UI layer
-│   ├── pages/         # Main pages
-│   │   ├── HomePage.dart       # Dashboard with diary timeline and quick actions
-│   │   ├── CalendarPage.dart   # Schedule visualization
-│   │   ├── HealthPage.dart     # Health metrics dashboard
-│   ├── widgets/       # Reusable components
-│   │   ├── PetCard.dart        # Pet profile with status indicators
-│   │   ├── DiaryItem.dart      # Diary entry with media preview
-│   │   └── ReminderTile.dart   # Reminder component with countdown
-├── config/            # Configuration
-│   ├── themes/        # Theme settings (light/dark mode)
-│   └── locales/       # Localization resources (Chinese/English)
+├── pages/             # UI pages
+│   ├── home_page.dart         # Dashboard with diary timeline and quick actions
+│   ├── calendar_page.dart     # Schedule visualization
+│   ├── health_page.dart       # Health metrics dashboard
+│   ├── pet_breed_detection_page.dart # Pet breed detection page
+│   ├── topic_page.dart        # Topic community page
+│   └── settings_page.dart     # Settings page
+├── widgets/           # Reusable components
+│   ├── pet_card.dart          # Pet profile with status indicators
+│   ├── bottom_nav.dart        # Bottom navigation bar
+│   └── profile_header.dart    # User profile header
+├── localizations/     # Localization
+│   └── app_localizations.dart # Multilingual support
+├── theme_notifier.dart # Theme management
+├── locale_notifier.dart # Language management
 └── main.dart          # Application entry point
 ```
 
@@ -138,6 +169,8 @@ flutter build ios --release
 - [ ] **Pet Social Network**: Community feed and location-based owner matching
 - [ ] **AI Health Analysis**: Image recognition for pet emotion detection and predictive analytics
 - [ ] **Cloud Sync**: Multi-device sync based on Firebase, supporting family account sharing
+- [ ] **Smart Recommendation System**: Personalized content recommendations based on pet breed and age
+- [ ] **Voice Control**: Application control functionality based on voice recognition
 
 ## 📄 License
 This project is released under the MIT open-source license. Commercial use or derivative works require authorization from the author.
