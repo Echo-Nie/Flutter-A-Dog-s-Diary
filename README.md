@@ -168,10 +168,9 @@ flutter build ios --release
 
 ## 🔮 Future Enhancements
 - [ ] **Pet Social Network**: Community feed and location-based owner matching
-- [ ] **AI Health Analysis**: Image recognition for pet emotion detection and predictive analytics
-- [ ] **Cloud Sync**: Multi-device sync based on Firebase, supporting family account sharing
+- [x] **Pet Recognition**: The external model is capable of recognizing images.  
+- [x] **AI Report Analysis**: Generate personalized reports using a large model based on the recognition results.
 - [ ] **Smart Recommendation System**: Personalized content recommendations based on pet breed and age
-- [ ] **Voice Control**: Application control functionality based on voice recognition
 
 ## 📄 License
 This project is released under the MIT open-source license. Commercial use or derivative works require authorization from the author.
